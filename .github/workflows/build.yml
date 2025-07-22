@@ -39,7 +39,7 @@ jobs:
         curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/secrets
       
     - name: Package application for macOS ${{ matrix.arch }} ${{ matrix.target }}
-      run: npx electron-forge publish --platform=darwin --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}" --icon=public/avatar
+      run: npx electron-forge publish --platform=darwin --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}" --icon=public/avatar --publish-target=github
   
   prerelease-linux:
     runs-on: ubuntu-latest
@@ -66,7 +66,7 @@ jobs:
         curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/secrets
       
     - name: Package application for Linux ${{ matrix.arch }} ${{ matrix.target }}
-      run: npx electron-forge publish --platform=linux --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}" --icon=public/avatar
+      run: npx electron-forge publish --platform=linux --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}" --icon=public/avatar --publish-target=github
 
   prerelease-windows:
     runs-on: windows-latest
@@ -90,4 +90,4 @@ jobs:
       run: npm install
 
     - name: Package application for Windows ${{ matrix.arch }} ${{ matrix.target }}
-      run: npx electron-forge publish --platform=win32 --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}" --icon=public/avatar
+      run: npx electron-forge publish --platform=win32 --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}" --icon=public/avatar --publish-target=github

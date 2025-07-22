@@ -1,1 +1,35 @@
-{"name":"my-electron-project","productName":"My Electron Project","description":"This is My Electron Project, a simple application built with Electron.","version":"1.0.0","repository":{"type":"git","url":"https://github.com/akirarika/electron-publisher.git"},"dependencies":{"electron-squirrel-startup":"1.0.1"},"devDependencies":{"@electron-forge/cli":"7.8.1","@electron-forge/maker-deb":"7.8.1","@electron-forge/maker-dmg":"7.8.1","@electron-forge/maker-rpm":"7.8.1","@electron-forge/maker-squirrel":"7.8.1","@electron-forge/maker-zip":"7.8.1","@electron-forge/publisher-github":"7.8.1","@electron-forge/plugin-auto-unpack-natives":"7.8.1","@electron-forge/plugin-fuses":"7.8.1","@electron/fuses":"1.8.0","electron":"37.2.3"},"type":"module","main":"__ERUN__.mjs","scripts":{"start":"electron-forge start","package":"electron-forge package","make":"electron-forge make","publish":"electron-forge publish","electron-forge":"electron-forge"}}
+{
+    "name": "my-electron-project",
+    "productName": "My Electron Project",
+    "description": "This is My Electron Project, a simple application built with Electron.",
+    "version": "1.0.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/akirarika/electron-publisher.git"
+    },
+    "dependencies": {
+        "electron-squirrel-startup": "1.0.1"
+    },
+    "devDependencies": {
+        "@electron-forge/cli": "7.8.1",
+        "@electron-forge/maker-deb": "7.8.1",
+        "@electron-forge/maker-dmg": "7.8.1",
+        "@electron-forge/maker-rpm": "7.8.1",
+        "@electron-forge/maker-squirrel": "7.8.1",
+        "@electron-forge/maker-zip": "7.8.1",
+        "@electron-forge/publisher-github": "7.8.1",
+        "@electron-forge/plugin-auto-unpack-natives": "7.8.1",
+        "@electron-forge/plugin-fuses": "7.8.1",
+        "@electron/fuses": "1.8.0",
+        "electron": "37.2.3"
+    },
+    "type": "module",
+    "main": "__ERUN__.mjs",
+    "scripts": {
+        "start": "electron-forge start",
+        "package": "electron-forge package",
+        "make": "electron-forge make",
+        "publish": "electron-forge publish",
+        "electron-forge": "electron-forge"
+    }
+}

@@ -1,19 +1,22 @@
-name: Build
+name: Prerelease
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build-macos:
+  prerelease-macos:
     runs-on: macos-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     strategy:
       matrix:
         arch: [x64, arm64]
+        target: [dmg, zip]
+        # include:
+        #   - arch: arm64
+        #     target: dmg
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -31,29 +34,21 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Build application
-      run: npm run build
-
-    - name: Package application for macOS ${{ matrix.arch }}
-      run: npx electron-forge make --platform=darwin --arch=${{ matrix.arch }} --targets="@electron-forge/maker-zip,@electron-forge/maker-dmg" --icon=public/avatar
-
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: electron-app-${{ matrix.arch }}-zip
-        path: ${{ github.workspace }}/**/make/**/*.zip
-        
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: electron-app-${{ matrix.arch }}-dmg
-        path: ${{ github.workspace }}/**/make/**/*.dmg
-
-  build-linux:
+    - name: Use GitHub Token in a script
+      run: |
+        curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/secrets
+      
+    - name: Package application for macOS ${{ matrix.arch }} ${{ matrix.target }}
+      run: npx electron-forge publish --platform=darwin --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}" --icon=public/avatar
+  
+  prerelease-linux:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     strategy:
       matrix:
         arch: [x64, arm64]
+        target: [deb, zip]
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -62,34 +57,25 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '20'
-    
+
     - name: Install dependencies
       run: npm install
 
-    - name: Build application
-      run: npm run build
-
-    - name: Package application for Linux ${{ matrix.arch }}
-      run: npx electron-forge make --platform=linux --arch=${{ matrix.arch }} --targets="@electron-forge/maker-deb,@electron-forge/maker-zip" --icon=public/avatar
-
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: electron-app-${{ matrix.arch }}-deb
-        path: ${{ github.workspace }}/**/make/**/*.deb
+    - name: Use GitHub Token in a script
+      run: |
+        curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/secrets
       
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: electron-app-${{ matrix.arch }}-zip
-        path: ${{ github.workspace }}/**/make/**/*.zip
-    
-  build-windows:
+    - name: Package application for Linux ${{ matrix.arch }} ${{ matrix.target }}
+      run: npx electron-forge publish --platform=linux --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}" --icon=public/avatar
+
+  prerelease-windows:
     runs-on: windows-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     strategy:
       matrix:
         arch: [x64, ia32]
-        # target: [squirrel, zip]
+        target: [squirrel, zip]
 
     steps:
     - name: Checkout code
@@ -103,20 +89,5 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Build application
-      run: npm run build
-
-    - name: Package application for Windows ${{ matrix.arch }}
-      run: npx electron-forge make --platform=win32 --arch=${{ matrix.arch }} --targets="@electron-forge/maker-squirrel,@electron-forge/maker-zip" --icon=public/avatar
-
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: electron-app-${{ matrix.arch }}-exe
-        path: ${{ github.workspace }}/**/make/**/*.exe
-
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: electron-app-${{ matrix.arch }}-zip
-        path: ${{ github.workspace }}/**/make/**/*.zip
+    - name: Package application for Windows ${{ matrix.arch }} ${{ matrix.target }}
+      run: npx electron-forge publish --platform=win32 --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}" --icon=public/avatar

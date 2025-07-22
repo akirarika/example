@@ -1,7 +1,6 @@
 {
     "author": "my",
     "name": "my-electron-project",
-    "productName": "My Electron Project",
     "description": "This is My Electron Project, a simple application built with Electron.",
     "version": "1.0.0",
     "repository": {
